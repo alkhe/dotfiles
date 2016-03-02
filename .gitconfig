@@ -1,0 +1,8 @@
+[user]
+	name = edge
+	email = dev@ionized.io 
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
