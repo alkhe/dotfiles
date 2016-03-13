@@ -22,7 +22,7 @@ inth() {
 }
 
 ### Language
-alias es='babel-node --stage 0'
+alias es='babel-node'
 alias rh='runhaskell'
 
 ### Prompt
