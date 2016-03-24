@@ -7,6 +7,7 @@
 
 ### Filesystem 
 alias ls='ls --color=auto'
+alias l='ls -CaFl'
 alias lh='l -h'
 alias d.='du -hd0'
 
