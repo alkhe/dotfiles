@@ -8,6 +8,7 @@
 ### Filesystem 
 alias ls='ls --color=auto'
 alias lh='l -h'
+alias d.='du -hd0'
 
 ### Git
 alias upsm='git submodule foreach git pull origin master'
@@ -24,6 +25,11 @@ inth() {
 ### Language
 alias es='babel-node'
 alias rh='runhaskell'
+
+### Testing
+bnch() {
+	time (for i in {1..100}; do $@ > /dev/null; done)
+}
 
 ### Prompt
 
