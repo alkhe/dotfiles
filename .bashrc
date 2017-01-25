@@ -5,39 +5,125 @@
 ### Session
 [[ $- != *i* ]] && return
 
-### Filesystem 
+### Term
+alias x256='export TERM=xterm-256color'
+alias tmux='tmux -2'
+
+### System
+alias sudo='sudo '
+
+### Filesystem
 alias ls='ls --color=auto'
+alias l='ls -CaFl'
 alias lh='l -h'
+alias d.='du -hd0'
+alias ..='cd ..'
+alias ...='cd ../..'
+
+### Directories
+alias md='cd ~/Music/Library'
+alias pd='cd ~/Documents/projects'
+
+export MUSIC="$HOME/Music/Library"
+export PROJECTS="$HOME/Documents/projects"
+
+import_music() {
+	mv "$1" $MUSIC
+}
+
+import_theme() {
+	mv "$1" /usr/share/themes/
+}
+
+### neovim
+alias nv='nvim'
+
+### fun
+alias fun='cmatrix | lolcat'
+alias text='toilet -fmono12'
+alias stext='toilet -fmono9'
+alias jap='gotran en ja'
+
+### Workflow
+note() {
+	cd ~/notes && nv -c startinsert "$1"
+}
 
 ### Git
 alias upsm='git submodule foreach git pull origin master'
-
-### Archlinux
-alias rnet='sudo systemctl restart NetworkManager'
-alias psyu='sudo packer -Syu --noconfirm'
-alias xr='xrandr --output eDP1 --scale .5x.5'
-alias open='xdg-open'
-inth() {
-	mv $1 /usr/share/themes/
+git-undo() {
+	git rebase --onto $1^ $1
 }
 
+### Node
+alias bab='yarn add --dev babel-{cli,preset-{stage-0,latest}} && cp ~/Documents/.babelrc .'
+
+### Audio
+flac_to_aac() {
+	ffmpeg -i "$1" -c:a libfdk_aac -vbr 5 "$2"
+}
+
+bitrate() {
+	echo `file "$1" | sed 's/.*, \(.*\)kbps.*/\1/' | tr -d " " ` kbps
+}
+
+### Upload
+alias mixtape='pomf mixtape'
+
+### Dev
+alias herokulogs='heroku logs --source app'
+
+### X
+alias xcopy='xsel -bi'
+alias xpaste='xsel -bo'
+
+### Archlinux
+alias psyu='sudo packer -Syu --noconfirm'
+alias xr='xrandr --output eDP1 --scale .5x.5'
+alias xrr='xrandr --output eDP1 --scale 1x1'
+alias xrh='xrandr --output HDMI1 --scale 1x1'
+alias open='xdg-open'
+alias gtt='gnome-tweak-tool'
+
+
 ### Language
-alias es='babel-node --stage 0'
-alias rh='runhaskell'
+alias es='babel-node'
+alias rh='runhaskell -Wno-tabs'
+alias mh='ghc -O'
+re() {
+	rebuild -quiet $1.native
+	./$1.native
+}
+
+### Path
+addpath() {
+	export PATH="$1:$PATH"
+}
+
+### Testing
+bench100() {
+	time (for i in {1..100}; do $@ > /dev/null; done)
+}
+
+bench1000() {
+	time (for i in {1..1000}; do $@ > /dev/null; done)
+}
+
+### OCaml
+eval $(opam config env)
 
 ### Prompt
 
 # no print
-np() {
-	echo "\[\033[38;5;$1m\]"
-}
+np1="\[\033[38;5;"
+np2="m\]"
 
 # reset color
 rs="\[$(tput sgr0)\]"
 
 # new color
-c() {
-	echo "$rs$(np $1)"
+co() {
+	echo "$rs$np1$1$np2"
 }
 
 # git aware
@@ -68,8 +154,26 @@ gitaware() {
 	git_prompt=$git_branch$git_dirty$([ -n "$git_branch" ] && echo " ")
 }
 
+set_tricolor() {
+	tricolor=$((RANDOM % 18 + 238))
+}
+
+get_tricolor() {
+	echo $tricolor
+}
+
+ttycolor=`[[ -n $SSH_CLIENT ]] && echo $(co 43) || echo $(co 243)`
+
 PROMPT_COMMAND="gitaware; $PROMPT_COMMAND"
-export PS1="$(np 67)[$(c 43)\h$(c 159):\w$(c 67)]$(c 131) \$git_prompt$(c 141)>> $rs"
+
+# PS1=$rs$np1
+PS1="$(co 36)"
+# PS1+='$(get_tricolor)'
+# PS1+=$np2
+# PS1+="▲ "
+PS1+="$ttycolor\h$(co 249) \w$(co 131) \$git_prompt$(co 67)"
+PS1+=":: $(co 209)"
+trap '[[ -t 1 ]] && tput sgr0' DEBUG
 
 unset rs
 unset -f {np,c}
@@ -81,8 +185,4 @@ backup() {
 
 restore() {
 	cp $1% $1
-}
-
-bitrate() {
-	echo `file "$1" | sed 's/.*, \(.*\)kbps.*/\1/' | tr -d " " ` kbps
 }

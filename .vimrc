@@ -1,15 +1,88 @@
 " short circuit if evim
 if v:progname =~? "evim"
-  finish
+	finish
 endif
 
 " no vi compatibility
 set nocp
 
+" dein.vim
+
+set rtp+=~/.vim/repos/github.com/Shougo/dein.vim
+call dein#begin(expand('~/.vim'))
+
+call dein#add('Shougo/dein.vim')
+call dein#add('Shougo/vimproc.vim', { 'build': 'make' })
+call dein#add('L9')
+
+" call dein#add('AutoComplPop')
+call dein#add('Shougo/deoplete.nvim')
+" call dein#add('eagletmt/ghcmod-vim', { 'on_ft': 'haskell' })
+" call dein#add('eagletmt/neco-ghc', { 'on_ft': 'haskell' })
+call dein#add('tpope/vim-rsi')
+
+call dein#add('vim-airline/vim-airline')
+call dein#add('vim-airline/vim-airline-themes')
+
+call dein#add('joshdick/onedark.vim')
+" call dein#add('raphamorim/lucario')
+" call dein#add('dracula/vim')
+" call dein#add('YorickPeterse/happy_hacking.vim')
+" call dein#add('MvanDiemen/ghostbuster')
+" call dein#add('rakr/vim-two-firewatch')
+" call dein#add('tyrannicaltoucan/vim-deep-space')
+" call dein#add('rakr/vim-one')
+
+" call dein#add('rust-lang/rust.vim')
+call dein#add('zah/nim.vim')
+" call dein#add('jordwalke/vim-reason-loader')
+call dein#add('facebook/reason', { 'rtp': 'editorSupport/VimReason' })
+
+call dein#add('airblade/vim-gitgutter')
+
+call dein#add('pangloss/vim-javascript')
+call dein#add('mxw/vim-jsx')
+
+call dein#add('justinmk/vim-syntax-extra')
+
+call dein#add('lambdatoast/elm.vim')
+
+call dein#end()
+
+" colors
+set background=dark
+colorscheme onedark
+let g:airline_theme='hybrid'
+
+" react syntax
+let g:js_ext_required = 0
+
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
-" if has("vms")
+" disable arrow keys
+noremap <Up> <Nop>
+noremap <Down> <Nop>
+noremap <Left> <Nop>
+noremap <Right> <Nop>
+inoremap <Up> <Nop>
+inoremap <Down> <Nop>
+inoremap <Left> <Nop>
+inoremap <Right> <Nop>
+
+" make Ctrl-C as strong as Ctrl-[
+nnoremap <C-c> <Esc>
+
+" set syntax to js
+command JS :set syntax=javascript
+
+" wrap left/right
+set whichwrap+=<,>,h,l,[,]
+
+" show whitespace
+set list
+
+" if has("vms").
 set nobackup		" do not keep a backup file, use versions instead
 " git is fine okay
 " else
@@ -31,51 +104,70 @@ inoremap <C-U> <C-G>u<C-U>
 " 4-col hard tabs
 set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 
+" set line numbers
+set number
+
 " mouse/GUI
 if has('mouse')
-  set mouse=a
+	set mouse=a
+endif
+
+if (has("termguicolors"))
+	set termguicolors
 endif
 
 " syntax highlighting
 if &t_Co > 2 || has("gui_running")
-  syntax on
-  set hlsearch
+	syntax on
+	set hlsearch
 endif
+
+" filetype indent detection
+filetype plugin indent on
+
+" sudo write
+cmap w!! w !sudo tee > /dev/null %
 
 if has("autocmd")
 
-  " filetype indent detection
-  filetype plugin indent on
-
   " Put these in an autocmd group, so that we can delete them easily.
-  augroup vimrcEx
-  au!
+	augroup vimrcEx
+	au!
 
-  " For all text files set 'textwidth' to 78 characters.
-  autocmd FileType text setlocal textwidth=78
+	" au BufRead,BufNewFile *.lm setf javascript
 
-  " When editing a file, always jump to the last known cursor position.
-  " Don't do it when the position is invalid or when inside an event handler
-  " (happens when dropping a file on gvim).
-  autocmd BufReadPost *
-    \ if line("'\"") >= 1 && line("'\"") <= line("$") |
-    \   exe "normal! g`\"" |
-    \ endif
+	" For all text files set 'textwidth' to 78 characters.
+	au FileType text setlocal textwidth=78
+	au BufEnter,BufNewFile,BufRead *.lm set filetype=javascript
 
-  augroup END
+	" let g:deoplete#enable_refresh_always = 1
+	" let g:deoplete#auto_complete_delay = 0
+	" let g:necoghc_enable_detailed_browse = 1
+	" au FileType haskell setlocal omnifunc=necoghc#omnifunc
+	let g:deoplete#enable_at_startup = 1
+
+	" When editing a file, always jump to the last known cursor position.
+	" Don't do it when the position is invalid or when inside an event handler
+	" (happens when dropping a file on gvim).
+	au BufReadPost *
+		\ if line("'\"") >= 1 && line("'\"") <= line("$") |
+		\   exe "normal! g`\"" |
+		\ endif
+
+	augroup END
 
 else
 
-  set autoindent		" always set autoindenting on
+	set autoindent		" always set autoindenting on
 
 endif " has("autocmd")
 
 " diff with original file
 if !exists(":DiffOrig")
-  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-		  \ | wincmd p | diffthis
+	command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+		\ | wincmd p | diffthis
 endif
 
 if has('langmap') && exists('+langnoremap')
-  set langnoremap
+	set langnoremap
 endif
