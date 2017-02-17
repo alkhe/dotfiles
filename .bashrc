@@ -13,7 +13,7 @@ alias tmux='tmux -2'
 alias sudo='sudo '
 
 ### Filesystem
-alias ls='ls --color=auto'
+alias ls='ls -G'
 alias l='ls -CaFl'
 alias lh='l -h'
 alias d.='du -hd0'
@@ -82,12 +82,12 @@ alias psyu='sudo packer -Syu --noconfirm'
 alias xr='xrandr --output eDP1 --scale .5x.5'
 alias xrr='xrandr --output eDP1 --scale 1x1'
 alias xrh='xrandr --output HDMI1 --scale 1x1'
-alias open='xdg-open'
 alias gtt='gnome-tweak-tool'
 
 
 ### Language
 alias es='babel-node'
+alias no='node --harmony'
 alias rh='runhaskell -Wno-tabs'
 alias mh='ghc -O'
 re() {
@@ -110,7 +110,7 @@ bench1000() {
 }
 
 ### OCaml
-eval $(opam config env)
+# eval $(opam config env)
 
 ### Prompt
 
