@@ -8,7 +8,7 @@ set nocp
 
 " dein.vim
 
-set rtp+=~/.vim/repos/github.com/Shougo/dein.vim
+set rtp+=~/.vim/bundles/repos/github.com/Shougo/dein.vim
 call dein#begin(expand('~/.vim'))
 
 call dein#add('Shougo/dein.vim')
@@ -17,8 +17,6 @@ call dein#add('L9')
 
 " call dein#add('AutoComplPop')
 call dein#add('Shougo/deoplete.nvim')
-" call dein#add('eagletmt/ghcmod-vim', { 'on_ft': 'haskell' })
-" call dein#add('eagletmt/neco-ghc', { 'on_ft': 'haskell' })
 call dein#add('tpope/vim-rsi')
 
 call dein#add('vim-airline/vim-airline')
@@ -33,19 +31,18 @@ call dein#add('joshdick/onedark.vim')
 " call dein#add('tyrannicaltoucan/vim-deep-space')
 " call dein#add('rakr/vim-one')
 
+" call dein#add('eagletmt/ghcmod-vim', { 'on_ft': 'haskell' })
+" call dein#add('eagletmt/neco-ghc', { 'on_ft': 'haskell' })
 " call dein#add('rust-lang/rust.vim')
-call dein#add('zah/nim.vim')
+" call dein#add('zah/nim.vim')
 " call dein#add('jordwalke/vim-reason-loader')
-call dein#add('facebook/reason', { 'rtp': 'editorSupport/VimReason' })
-
-call dein#add('airblade/vim-gitgutter')
-
+" call dein#add('facebook/reason', { 'rtp': 'editorSupport/VimReason' })
 call dein#add('pangloss/vim-javascript')
 call dein#add('mxw/vim-jsx')
-
 call dein#add('justinmk/vim-syntax-extra')
-
 call dein#add('lambdatoast/elm.vim')
+
+call dein#add('airblade/vim-gitgutter')
 
 call dein#end()
 
@@ -56,6 +53,9 @@ let g:airline_theme='hybrid'
 
 " react syntax
 let g:js_ext_required = 0
+
+" sql fix Ctrl-C
+let g:ftplugin_sql_omni_key = '<C-j>'
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -72,9 +72,6 @@ inoremap <Right> <Nop>
 
 " make Ctrl-C as strong as Ctrl-[
 nnoremap <C-c> <Esc>
-
-" set syntax to js
-command JS :set syntax=javascript
 
 " wrap left/right
 set whichwrap+=<,>,h,l,[,]
@@ -130,29 +127,31 @@ cmap w!! w !sudo tee > /dev/null %
 
 if has("autocmd")
 
-  " Put these in an autocmd group, so that we can delete them easily.
+	" Put these in an autocmd group, so that we can delete them easily.
 	augroup vimrcEx
-	au!
+		au!
 
-	" au BufRead,BufNewFile *.lm setf javascript
+		" au BufRead,BufNewFile *.lm setf javascript
 
-	" For all text files set 'textwidth' to 78 characters.
-	au FileType text setlocal textwidth=78
-	au BufEnter,BufNewFile,BufRead *.lm set filetype=javascript
+		" For all text files set 'textwidth' to 78 characters.
+		au FileType text setlocal textwidth=78
 
-	" let g:deoplete#enable_refresh_always = 1
-	" let g:deoplete#auto_complete_delay = 0
-	" let g:necoghc_enable_detailed_browse = 1
-	" au FileType haskell setlocal omnifunc=necoghc#omnifunc
-	let g:deoplete#enable_at_startup = 1
+		au FileType javascript set formatprg=prettier\ --stdin
+		au BufEnter,BufNewFile,BufRead *.lm set filetype=javascript
 
-	" When editing a file, always jump to the last known cursor position.
-	" Don't do it when the position is invalid or when inside an event handler
-	" (happens when dropping a file on gvim).
-	au BufReadPost *
-		\ if line("'\"") >= 1 && line("'\"") <= line("$") |
-		\   exe "normal! g`\"" |
-		\ endif
+		" let g:deoplete#enable_refresh_always = 1
+		" let g:deoplete#auto_complete_delay = 0
+		" let g:necoghc_enable_detailed_browse = 1
+		" au FileType haskell setlocal omnifunc=necoghc#omnifunc
+		let g:deoplete#enable_at_startup = 1
+
+		" When editing a file, always jump to the last known cursor position.
+		" Don't do it when the position is invalid or when inside an event handler
+		" (happens when dropping a file on gvim).
+		au BufReadPost *
+					\ if line("'\"") >= 1 && line("'\"") <= line("$") |
+					\   exe "normal! g`\"" |
+					\ endif
 
 	augroup END
 
@@ -165,7 +164,7 @@ endif " has("autocmd")
 " diff with original file
 if !exists(":DiffOrig")
 	command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-		\ | wincmd p | diffthis
+				\ | wincmd p | diffthis
 endif
 
 if has('langmap') && exists('+langnoremap')
