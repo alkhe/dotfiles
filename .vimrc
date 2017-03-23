@@ -23,10 +23,6 @@ call dein#add('Shougo/deoplete.nvim')
 
 call dein#add('tpope/vim-rsi')
 
-" faster navigation
-
-call dein#add('easymotion/vim-easymotion')
-
 " status bar
 
 call dein#add('vim-airline/vim-airline')
@@ -36,16 +32,20 @@ call dein#add('vim-airline/vim-airline-themes')
 
 call dein#add('airblade/vim-gitgutter')
 
+" tmux integration
+
+call dein#add('christoomey/vim-tmux-navigator')
+
 " color schemes
 
-call dein#add('joshdick/onedark.vim')
+" call dein#add('joshdick/onedark.vim')
+call dein#add('tyrannicaltoucan/vim-quantum')
+" call dein#add('rhysd/vim-color-spring-night')
 " call dein#add('raphamorim/lucario')
 " call dein#add('dracula/vim')
 " call dein#add('YorickPeterse/happy_hacking.vim')
-" call dein#add('MvanDiemen/ghostbuster')
 " call dein#add('rakr/vim-two-firewatch')
 " call dein#add('tyrannicaltoucan/vim-deep-space')
-" call dein#add('rakr/vim-one')
 
 " syntax plugins
 
@@ -63,8 +63,19 @@ call dein#add('justinmk/vim-syntax-extra')
 call dein#end()
 
 " colors
+if &t_Co > 2 || has('gui_running')
+	syntax on
+	set hlsearch
+endif
+
+if (has('termguicolors'))
+	set termguicolors
+endif
+
+" let g:spring_night_high_contrast=[]
+let g:quantum_black=1
 set background=dark
-colorscheme onedark
+colorscheme quantum
 let g:airline_theme='hybrid'
 
 " react syntax
@@ -83,8 +94,18 @@ inoremap <Down> <Nop>
 inoremap <Left> <Nop>
 inoremap <Right> <Nop>
 
+" switch panes faster
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
+
+" move by screen rows instead of lines
+noremap j gj
+noremap k gk
+
 " make Ctrl-C as strong as Esc
-nnoremap <C-c> <Esc>
+noremap <C-c> <Esc>
 
 " wrap ranges left/right
 set whichwrap+=<,>,h,l,[,]
@@ -127,17 +148,6 @@ if has('mouse')
 	set mouse=a
 endif
 
-" enable enhanced colors
-if (has('termguicolors'))
-	set termguicolors
-endif
-
-" syntax highlighting
-if &t_Co > 2 || has('gui_running')
-	syntax on
-	set hlsearch
-endif
-
 " filetype indent detection
 filetype plugin indent on
 
@@ -178,3 +188,4 @@ endif
 if has('langmap') && exists('+langnoremap')
 	set langnoremap
 endif
+

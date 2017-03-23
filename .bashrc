@@ -27,14 +27,6 @@ alias pd='cd ~/Documents/projects'
 export MUSIC="$HOME/Music/Library"
 export PROJECTS="$HOME/Documents/projects"
 
-import_music() {
-	mv "$1" $MUSIC
-}
-
-import_theme() {
-	mv "$1" /usr/share/themes/
-}
-
 ### neovim
 alias nv='nvim'
 
@@ -44,10 +36,12 @@ alias text='toilet -fmono12'
 alias stext='toilet -fmono9'
 alias jap='gotran en ja'
 
-### Workflow
+### Utils
 note() {
 	cd ~/notes && nv -c startinsert "$1"
 }
+
+alias ev='node -pe'
 
 ### Git
 alias upsm='git submodule foreach git pull origin master'
