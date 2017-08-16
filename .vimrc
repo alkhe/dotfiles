@@ -7,60 +7,62 @@ endif
 set nocp
 
 " dein.vim
+set rtp+=~/.vim/repos/github.com/Shougo/dein.vim
+if dein#load_state('~/.vim')
+	call dein#begin('~/.vim')
 
-set rtp+=~/.vim/bundles/repos/github.com/Shougo/dein.vim
-call dein#begin(expand('~/.vim'))
+	call dein#add('Shougo/dein.vim')
+	call dein#add('Shougo/vimproc.vim', { 'build': 'make' })
+	call dein#add('vim-scripts/L9')
 
-call dein#add('Shougo/dein.vim')
-call dein#add('Shougo/vimproc.vim', { 'build': 'make' })
-call dein#add('L9')
+	" autocomplete
 
-" autocomplete
+	call dein#add('Shougo/deoplete.nvim')
 
-call dein#add('Shougo/deoplete.nvim')
+	" readline insert mode
 
-" readline insert mode
+	call dein#add('tpope/vim-rsi')
 
-call dein#add('tpope/vim-rsi')
+	" status bar
 
-" status bar
+	call dein#add('vim-airline/vim-airline')
+	call dein#add('vim-airline/vim-airline-themes')
 
-call dein#add('vim-airline/vim-airline')
-call dein#add('vim-airline/vim-airline-themes')
+	" git integration
 
-" git integration
+	call dein#add('airblade/vim-gitgutter')
 
-call dein#add('airblade/vim-gitgutter')
+	" tmux integration
 
-" tmux integration
+	call dein#add('christoomey/vim-tmux-navigator')
 
-call dein#add('christoomey/vim-tmux-navigator')
+	" color schemes
 
-" color schemes
+	" call dein#add('joshdick/onedark.vim')
+	call dein#add('tyrannicaltoucan/vim-quantum')
+	" call dein#add('rhysd/vim-color-spring-night')
+	" call dein#add('raphamorim/lucario')
+	" call dein#add('dracula/vim')
+	" call dein#add('YorickPeterse/happy_hacking.vim')
+	" call dein#add('rakr/vim-two-firewatch')
+	" call dein#add('tyrannicaltoucan/vim-deep-space')
 
-" call dein#add('joshdick/onedark.vim')
-call dein#add('tyrannicaltoucan/vim-quantum')
-" call dein#add('rhysd/vim-color-spring-night')
-" call dein#add('raphamorim/lucario')
-" call dein#add('dracula/vim')
-" call dein#add('YorickPeterse/happy_hacking.vim')
-" call dein#add('rakr/vim-two-firewatch')
-" call dein#add('tyrannicaltoucan/vim-deep-space')
+	" syntax plugins
 
-" syntax plugins
+	call dein#add('pangloss/vim-javascript')
+	call dein#add('mxw/vim-jsx')
+	call dein#add('justinmk/vim-syntax-extra')
+	" call dein#add('lambdatoast/elm.vim')
+	" call dein#add('eagletmt/ghcmod-vim', { 'on_ft': 'haskell' })
+	" call dein#add('eagletmt/neco-ghc', { 'on_ft': 'haskell' })
+	" call dein#add('rust-lang/rust.vim')
+	" call dein#add('zah/nim.vim')
+	" call dein#add('jordwalke/vim-reason-loader')
+	" call dein#add('facebook/reason', { 'rtp': 'editorSupport/VimReason' })
 
-call dein#add('pangloss/vim-javascript')
-call dein#add('mxw/vim-jsx')
-call dein#add('justinmk/vim-syntax-extra')
-" call dein#add('lambdatoast/elm.vim')
-" call dein#add('eagletmt/ghcmod-vim', { 'on_ft': 'haskell' })
-" call dein#add('eagletmt/neco-ghc', { 'on_ft': 'haskell' })
-" call dein#add('rust-lang/rust.vim')
-" call dein#add('zah/nim.vim')
-" call dein#add('jordwalke/vim-reason-loader')
-" call dein#add('facebook/reason', { 'rtp': 'editorSupport/VimReason' })
-
-call dein#end()
+	call dein#end()
+	call dein#save_state()
+endif
 
 " colors
 if &t_Co > 2 || has('gui_running')
@@ -106,6 +108,17 @@ noremap k gk
 
 " make Ctrl-C as strong as Esc
 noremap <C-c> <Esc>
+
+" switch tab scheme
+function TabToggle()
+	if &expandtab
+		set noexpandtab tabstop=4 shiftwidth=4
+	else
+		set expandtab tabstop=2 shiftwidth=2
+	endif
+endfunction
+
+noremap <C-S-t> :call TabToggle()<CR>
 
 " wrap ranges left/right
 set whichwrap+=<,>,h,l,[,]
