@@ -1,6 +1,6 @@
 " short circuit if evim
 if v:progname =~? 'evim'
-	finish
+  finish
 endif
 
 " no vi compatibility
@@ -9,69 +9,64 @@ set nocp
 " dein.vim
 set rtp+=~/.vim/repos/github.com/Shougo/dein.vim
 if dein#load_state('~/.vim')
-	call dein#begin('~/.vim')
+  call dein#begin('~/.vim')
 
-	call dein#add('Shougo/dein.vim')
-	call dein#add('Shougo/vimproc.vim', { 'build': 'make' })
-	call dein#add('vim-scripts/L9')
+  call dein#add('Shougo/dein.vim')
+  call dein#add('Shougo/vimproc.vim', { 'build': 'make' })
+  call dein#add('vim-scripts/L9')
 
-	" autocomplete
+  " autocomplete
+  call dein#add('Shougo/deoplete.nvim')
 
-	call dein#add('Shougo/deoplete.nvim')
+  " readline insert mode
+  call dein#add('tpope/vim-rsi')
 
-	" readline insert mode
+  " status bar
+  call dein#add('vim-airline/vim-airline')
+  call dein#add('vim-airline/vim-airline-themes')
 
-	call dein#add('tpope/vim-rsi')
+  " git integration
+  call dein#add('airblade/vim-gitgutter')
 
-	" status bar
+  " tmux integration
+  call dein#add('christoomey/vim-tmux-navigator')
 
-	call dein#add('vim-airline/vim-airline')
-	call dein#add('vim-airline/vim-airline-themes')
+  " color schemes
+  " call dein#add('joshdick/onedark.vim')
+  call dein#add('tyrannicaltoucan/vim-quantum')
+  " call dein#add('rhysd/vim-color-spring-night')
+  " call dein#add('raphamorim/lucario')
+  " call dein#add('dracula/vim')
+  " call dein#add('YorickPeterse/happy_hacking.vim')
+  " call dein#add('rakr/vim-two-firewatch')
+  " call dein#add('tyrannicaltoucan/vim-deep-space')
 
-	" git integration
+  " syntax plugins
+  call dein#add('pangloss/vim-javascript')
+  " call dein#add('mxw/vim-jsx')
+  " call dein#add('digitaltoad/vim-pug')
+  " call dein#add('wavded/vim-stylus')
+  " call dein#add('justinmk/vim-syntax-extra')
+  " call dein#add('lambdatoast/elm.vim')
+  " call dein#add('eagletmt/ghcmod-vim', { 'on_ft': 'haskell' })
+  " call dein#add('eagletmt/neco-ghc', { 'on_ft': 'haskell' })
+  " call dein#add('rust-lang/rust.vim')
+  " call dein#add('zah/nim.vim')
+  " call dein#add('jordwalke/vim-reason-loader')
+  " call dein#add('facebook/reason', { 'rtp': 'editorSupport/VimReason' })
 
-	call dein#add('airblade/vim-gitgutter')
-
-	" tmux integration
-
-	call dein#add('christoomey/vim-tmux-navigator')
-
-	" color schemes
-
-	" call dein#add('joshdick/onedark.vim')
-	call dein#add('tyrannicaltoucan/vim-quantum')
-	" call dein#add('rhysd/vim-color-spring-night')
-	" call dein#add('raphamorim/lucario')
-	" call dein#add('dracula/vim')
-	" call dein#add('YorickPeterse/happy_hacking.vim')
-	" call dein#add('rakr/vim-two-firewatch')
-	" call dein#add('tyrannicaltoucan/vim-deep-space')
-
-	" syntax plugins
-
-	call dein#add('pangloss/vim-javascript')
-	call dein#add('mxw/vim-jsx')
-	call dein#add('justinmk/vim-syntax-extra')
-	" call dein#add('lambdatoast/elm.vim')
-	" call dein#add('eagletmt/ghcmod-vim', { 'on_ft': 'haskell' })
-	" call dein#add('eagletmt/neco-ghc', { 'on_ft': 'haskell' })
-	" call dein#add('rust-lang/rust.vim')
-	" call dein#add('zah/nim.vim')
-	" call dein#add('jordwalke/vim-reason-loader')
-	" call dein#add('facebook/reason', { 'rtp': 'editorSupport/VimReason' })
-
-	call dein#end()
-	call dein#save_state()
+  call dein#end()
+  call dein#save_state()
 endif
 
 " colors
 if &t_Co > 2 || has('gui_running')
-	syntax on
-	set hlsearch
+  syntax on
+  set hlsearch
 endif
 
 if (has('termguicolors'))
-	set termguicolors
+  set termguicolors
 endif
 
 " let g:spring_night_high_contrast=[]
@@ -111,11 +106,11 @@ noremap <C-c> <Esc>
 
 " switch tab scheme
 function TabToggle()
-	if &expandtab
-		set noexpandtab tabstop=4 shiftwidth=4
-	else
-		set expandtab tabstop=2 shiftwidth=2
-	endif
+  if &expandtab
+    set noexpandtab tabstop=4 shiftwidth=4
+  else
+    set expandtab tabstop=2 shiftwidth=2
+  endif
 endfunction
 
 noremap <C-S-t> :call TabToggle()<CR>
@@ -127,7 +122,7 @@ set whichwrap+=<,>,h,l,[,]
 set backspace=indent,eol,start
 
 " show whitespace
-set list 
+set list
 
 " use git instead
 set nobackup
@@ -144,8 +139,8 @@ set showcmd
 " do incremental searching
 set incsearch
 
-" 4-col hard tabs
-set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
+" 2-col soft tabs
+set tabstop=2 softtabstop=2 expandtab shiftwidth=2
 
 " set line numbers
 set number
@@ -158,7 +153,7 @@ inoremap <C-U> <C-G>u<C-U>
 
 " enable mouse
 if has('mouse')
-	set mouse=a
+  set mouse=a
 endif
 
 " filetype indent detection
@@ -168,37 +163,37 @@ filetype plugin indent on
 cmap w!! w !sudo tee > /dev/null %
 
 if has('autocmd')
-	augroup vimrcEx
-		au!
+  augroup vimrcEx
+    au!
 
-		au FileType text setlocal textwidth=80
+    au FileType text setlocal textwidth=80
 
-		" lambdant syntax highlighting
-		au BufEnter,BufNewFile,BufRead *.lm set filetype=javascript
+    au BufEnter,BufNewFile,BufRead *.lm set filetype=javascript
+    au BufEnter,BufNewFile,BufRead *.vue set filetype=html
 
-		" enable deoplete
-		let g:deoplete#enable_at_startup = 1
-		" let g:necoghc_enable_detailed_browse = 1
-		" au FileType haskell setlocal omnifunc=necoghc#omnifunc
+    " enable deoplete
+    let g:deoplete#enable_at_startup = 1
+    " let g:necoghc_enable_detailed_browse = 1
+    " au FileType haskell setlocal omnifunc=necoghc#omnifunc
 
-		" jump to the last known cursor position
-		au BufReadPost *
-			\ if line("'\"") >= 1 && line("'\"") <= line("$") |
-			\   exe "normal! g`\"" |
-			\ endif
+    " jump to the last known cursor position
+    au BufReadPost *
+          \ if line("'\"") >= 1 && line("'\"") <= line("$") |
+          \   exe "normal! g`\"" |
+          \ endif
 
-	augroup END
+  augroup END
 else
-	set autoindent
+  set autoindent
 endif
 
 " diff with original file
 if !exists(':DiffOrig')
-	command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-		\ | wincmd p | diffthis
+  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+        \ | wincmd p | diffthis
 endif
 
 if has('langmap') && exists('+langnoremap')
-	set langnoremap
+  set langnoremap
 endif
 

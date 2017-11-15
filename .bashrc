@@ -26,12 +26,6 @@ alias pd='cd ~/Documents/projects'
 ### neovim
 alias nv='nvim'
 
-### fun
-alias fun='cmatrix | lolcat'
-alias text='toilet -fmono12'
-alias stext='toilet -fmono9'
-alias jap='gotran en ja'
-
 ### Utils
 note() {
 	cd ~/notes && nv -c startinsert "$1"
