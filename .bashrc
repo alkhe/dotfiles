@@ -20,7 +20,8 @@ alias tmux='tmux -2'
 alias sudo='sudo '
 
 ### Filesystem
-alias ls='ls -G'
+export CLICOLOR=1
+ls --color=auto &> /dev/null && alias ls='ls --color=auto' # GNU/BSD ls color compatibility
 alias l='ls -CaFl'
 alias lh='l -h'
 alias d.='du -hd0'
