@@ -38,16 +38,13 @@ alias git-update-submodules='git submodule foreach git pull origin master'
 
 ### Prompt
 
-# no print
-np1="\[\033[38;5;"
-np2="m\]"
-
 # reset color
-rs="\[$(tput sgr0)\]"
+reset=$(tput sgr0)
+bold=$(tput bold)
 
 # new color
 co() {
-  echo "$rs$np1$1$np2"
+  echo "\[\033[38;5;$1m\]"
 }
 
 # git aware
@@ -81,15 +78,15 @@ git_aware() {
   fi
 }
 
-shell_color=`[[ -n $SSH_CLIENT ]] && echo $(co 43) || echo $(co 243)`
-shell_id=`[[ -n $SSH_CLIENT ]] && echo "\u@\h" || echo "\h"`
+shell_id=`[[ -n $SSH_CLIENT ]] && echo "$(co 43)$bold(\u) $reset"`
+shell_id="$shell_id$(co 243)\h"
 
 PROMPT_COMMAND="git_aware; $PROMPT_COMMAND"
 
-PS1="$(co 36)$shell_color$shell_id $(co 249)\w $(co 131)\$git_prompt$(co 67):: $(co 209)"
+PS1="$shell_id $(co 249)\w $(co 131)\$git_prompt$(co 67):: $(co 209)"
 trap '[[ -t 1 ]] && tput sgr0' DEBUG
 
-unset rs shell_color shell_id
+unset reset bold shell_id
 unset -f co
 
 export PATH=~/.local/bin:$PATH
