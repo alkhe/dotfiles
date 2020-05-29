@@ -38,13 +38,13 @@ alias git-update-submodules='git submodule foreach git pull origin master'
 
 ### Prompt
 
-# reset color
-reset=$(tput sgr0)
-bold=$(tput bold)
+# styles
+reset="\001$(tput sgr0)\002"
+bold="\001$(tput bold)\002"
 
 # new color
 co() {
-  echo "\[\033[38;5;$1m\]"
+  echo "\001\033[38;5;$1m\002"
 }
 
 # git aware
@@ -78,15 +78,21 @@ git_aware() {
   fi
 }
 
-shell_id=`[[ -n $SSH_CLIENT ]] && echo "$(co 43)$bold(\u) $reset"`
-shell_id="$shell_id$(co 243)\h"
-
 PROMPT_COMMAND="git_aware; $PROMPT_COMMAND"
 
-PS1="$shell_id $(co 249)\w $(co 131)\$git_prompt$(co 67):: $(co 209)"
+PS1=""
+if [[ -n $SSH_CLIENT ]]; then
+  PS1+="$(co 43)$bold(\u) $reset" # if remote, show user
+fi
+PS1+="$(co 243)\h " # hostname
+PS1+="$(co 249)\w " # working directory
+PS1+="$(co 131)\$git_prompt" # git info
+PS1+="$(co 67):: " # delimiter
+PS1+="$(co 209)" # user input
+
 trap '[[ -t 1 ]] && tput sgr0' DEBUG
 
-unset reset bold shell_id
+unset reset bold
 unset -f co
 
 export PATH=~/.local/bin:$PATH
