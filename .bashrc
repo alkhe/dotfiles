@@ -71,7 +71,7 @@ ga_dirty() {
   fi
 }
 
-gitaware() {
+git_aware() {
   ga_branch
   ga_dirty
   git_prompt=$git_branch$git_dirty
@@ -80,14 +80,15 @@ gitaware() {
   fi
 }
 
-ttycolor=`[[ -n $SSH_CLIENT ]] && echo $(co 43) || echo $(co 243)`
+shell_color=`[[ -n $SSH_CLIENT ]] && echo $(co 43) || echo $(co 243)`
+shell_id=`[[ -n $SSH_CLIENT ]] && echo "\u@\h" || echo "\h"`
 
-PROMPT_COMMAND="gitaware; $PROMPT_COMMAND"
+PROMPT_COMMAND="git_aware; $PROMPT_COMMAND"
 
-PS1="$(co 36)$ttycolor\h$(co 249) \w$(co 131) \$git_prompt$(co 67):: $(co 209)"
+PS1="$(co 36)$shell_color$shell_id $(co 249)\w $(co 131)\$git_prompt$(co 67):: $(co 209)"
 trap '[[ -t 1 ]] && tput sgr0' DEBUG
 
-unset rs ttycolor
+unset rs shell_color shell_id
 unset -f co
 
 export PATH=~/.local/bin:$PATH
